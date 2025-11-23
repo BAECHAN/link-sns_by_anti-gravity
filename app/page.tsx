@@ -127,17 +127,17 @@ export default async function Home({ searchParams }: HomeProps) {
   })
 
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Recent Links</h1>
+    <div className="w-full space-y-6 md:space-y-8">
+      <div className="flex items-center justify-between gap-2">
+        <h1 className="text-xl md:text-2xl font-bold">Recent Links</h1>
         <Link href="/submit">
-          <Button>Submit Link</Button>
+          <Button size="sm" className="md:h-10">Submit Link</Button>
         </Link>
       </div>
 
       <FilterBar />
 
-      <div className="space-y-4">
+      <div className="space-y-4 md:space-y-6">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} currentUserId={session?.user?.id} />
         ))}

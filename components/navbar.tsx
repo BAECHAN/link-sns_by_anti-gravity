@@ -58,13 +58,13 @@ export function Navbar() {
     }, [])
 
     return (
-        <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-14 items-center justify-between gap-2 md:gap-4">
-                <div className="flex items-center gap-3 md:gap-6">
-                    <Link href="/" className="flex items-center space-x-2 font-bold text-lg md:text-xl">
+        <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+            <div className="container max-w-6xl mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center gap-4 md:gap-8">
+                    <Link href="/" className="flex items-center space-x-2 font-bold text-xl md:text-2xl tracking-tight">
                         LinkSphere
                     </Link>
-                    <div className="hidden md:flex gap-4">
+                    <div className="hidden md:flex gap-6">
                         <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
                             Feed
                         </Link>
@@ -75,7 +75,7 @@ export function Navbar() {
                 </div>
 
                 {/* Search Bar - Hidden on mobile, shown on larger screens */}
-                <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md">
+                <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md mx-4">
                     <div className="relative w-full">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -83,13 +83,13 @@ export function Navbar() {
                             placeholder="Search posts..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="pl-8"
+                            className="pl-8 bg-muted/50"
                         />
                     </div>
                 </form>
 
 
-                <div className="flex items-center gap-1 md:gap-4">
+                <div className="flex items-center gap-2">
                     <Button
                         variant="ghost"
                         size="icon"
@@ -107,8 +107,8 @@ export function Navbar() {
                     {session ? (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                    <Avatar className="h-8 w-8">
+                                <Button variant="ghost" className="relative h-8 w-8 rounded-full ml-2">
+                                    <Avatar className="h-8 w-8 border">
                                         <AvatarImage src={session.user?.image || ""} alt={session.user?.name || ""} />
                                         <AvatarFallback>{session.user?.name?.[0] || "U"}</AvatarFallback>
                                     </Avatar>
@@ -121,7 +121,7 @@ export function Navbar() {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <Button onClick={() => signIn()} size="sm">
+                        <Button onClick={() => signIn()} size="sm" className="ml-2">
                             Log in
                         </Button>
                     )}

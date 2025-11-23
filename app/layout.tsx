@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { Navbar } from "@/components/navbar";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,12 +22,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Suspense>
-            <Navbar />
-          </Suspense>
-          <main className="container py-6">
-            {children}
-          </main>
+          <div className="min-h-screen bg-background font-sans antialiased">
+            <Suspense>
+              <Navbar />
+            </Suspense>
+            <main className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+              {children}
+            </main>
+            <Toaster position="bottom-right" />
+          </div>
         </Providers>
       </body>
     </html>

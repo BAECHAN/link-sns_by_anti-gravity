@@ -4,9 +4,10 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
+import { toast } from "sonner"
 
 const CATEGORIES = [
     "백엔드",
@@ -58,25 +59,29 @@ export function SubmitForm() {
             fetch(`/api/posts/${post.id}/analyze`, {
                 method: "POST"
             })
-
+            
+            toast.success("링크가 공유되었습니다!")
             router.push("/")
             router.refresh()
         } catch (error) {
             console.error(error)
-            alert("Something went wrong. Please try again.")
+            toast.error("오류가 발생했습니다. 다시 시도해주세요.")
         } finally {
             setIsLoading(false)
         }
     }
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center w-full py-8">
             <Card className="w-full max-w-2xl">
-                <CardHeader>
-                    <CardTitle>Share a Link</CardTitle>
+                <CardHeader className="p-6">
+                    <CardTitle className="text-2xl">링크 공유하기</CardTitle>
+                    <CardDescription>
+                        팀원들과 공유하고 싶은 유용한 아티클이나 리소스의 URL을 입력하세요.
+                    </CardDescription>
                 </CardHeader>
-                <CardContent>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                <CardContent className="p-6 pt-0">
+                    <form onSubmit={handleSubmit} className="space-y-6">
                         <div className="space-y-2">
                             <Label htmlFor="url">URL</Label>
                             <Input
@@ -86,15 +91,16 @@ export function SubmitForm() {
                                 onChange={(e) => setUrl(e.target.value)}
                                 required
                                 disabled={isLoading}
+                                className="h-11"
                             />
                             <p className="text-sm text-muted-foreground">
-                                We'll automatically fetch the title, image, and generate tags.
+                                자동으로 제목과 이미지를 가져오고 태그를 생성합니다.
                             </p>
                         </div>
 
-                        <div className="space-y-2">
-                            <Label>직군 (선택사항)</Label>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                        <div className="space-y-3">
+                            <Label>관심 분야 (선택사항)</Label>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                 {CATEGORIES.map((category) => (
                                     <div key={category} className="flex items-center space-x-2">
                                         <Checkbox
@@ -105,7 +111,7 @@ export function SubmitForm() {
                                         />
                                         <label
                                             htmlFor={category}
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer select-none"
                                         >
                                             {category}
                                         </label>
@@ -114,8 +120,8 @@ export function SubmitForm() {
                             </div>
                         </div>
 
-                        <Button type="submit" disabled={isLoading}>
-                            {isLoading ? "Sharing..." : "Share Link"}
+                        <Button type="submit" disabled={isLoading} className="w-full h-11 text-base">
+                            {isLoading ? "공유하는 중..." : "링크 공유하기"}
                         </Button>
                     </form>
                 </CardContent>
