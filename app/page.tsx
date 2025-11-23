@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { InfiniteScrollTrigger } from "@/components/infinite-scroll-trigger"
 
 export const dynamic = 'force-dynamic'
 
@@ -25,19 +26,56 @@ export default async function Home({ searchParams }: HomeProps) {
   // Build where clause for filtering
   const where: any = {}
 
-  // Search by title, description, or tags (SQLite doesn't support mode: 'insensitive')
+  // Parse search query for tags (e.g., @Backend)
+  let textSearch = searchQuery
+  const tags: string[] = []
+
   if (searchQuery) {
+    const tagRegex = /@(\S+)/g
+    const matches = searchQuery.match(tagRegex)
+    if (matches) {
+      matches.forEach(match => {
+        tags.push(match.substring(1)) // Remove @
+      })
+      // Remove tags from text search
+      textSearch = searchQuery.replace(tagRegex, "").trim()
+    }
+  }
+
+  // Search by title, description, or tags
+  if (textSearch) {
     where.OR = [
-      { title: { contains: searchQuery } },
-      { description: { contains: searchQuery } },
-      { tags: { contains: searchQuery } },
+      { title: { contains: textSearch } },
+      { description: { contains: textSearch } },
+      { tags: { contains: textSearch } },
     ]
   }
 
-  // Filter by category
+  // Filter by category (from URL param OR parsed tags)
+  const categoriesToFilter = [...tags]
   if (category) {
-    where.categories = {
-      contains: category
+    categoriesToFilter.push(category)
+  }
+
+  if (categoriesToFilter.length > 0) {
+    // If multiple categories, we want posts that match ANY of them
+    // But since categories is a string, we need OR conditions for each
+    const categoryConditions = categoriesToFilter.map(cat => ({
+      categories: {
+        contains: cat
+      }
+    }))
+
+    if (where.OR) {
+      // If we already have OR for text search, we need to combine them carefully
+      // (Text Search) AND (Category A OR Category B)
+      where.AND = [
+        { OR: where.OR },
+        { OR: categoryConditions }
+      ]
+      delete where.OR
+    } else {
+      where.OR = categoryConditions
     }
   }
 
@@ -69,6 +107,7 @@ export default async function Home({ searchParams }: HomeProps) {
   }
 
   const posts = await prisma.post.findMany({
+    take: 10,
     where,
     orderBy,
     include: {
@@ -92,7 +131,7 @@ export default async function Home({ searchParams }: HomeProps) {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Recent Links</h1>
         <Link href="/submit">
-          <Button>Share Link</Button>
+          <Button>Submit Link</Button>
         </Link>
       </div>
 
@@ -102,6 +141,7 @@ export default async function Home({ searchParams }: HomeProps) {
         {posts.map((post) => (
           <PostCard key={post.id} post={post} currentUserId={session?.user?.id} />
         ))}
+        <InfiniteScrollTrigger initialPostCount={posts.length} currentUserId={session?.user?.id} />
 
         {posts.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">

@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { useSession, signIn, signOut } from "next-auth/react"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -32,6 +32,31 @@ export function Navbar() {
         router.push(`/?${params.toString()}`)
     }
 
+    // Global keyboard shortcut for search
+    useEffect(() => {
+        const handleKeyPress = (e: KeyboardEvent) => {
+            // Ignore if typing in input or textarea
+            if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+                return
+            }
+
+            if (e.key === "/") {
+                e.preventDefault()
+                // Prioritize FilterBar search, fall back to header search
+                const contentSearch = document.getElementById("search-input")
+                const headerSearch = document.getElementById("header-search-input")
+                if (contentSearch) {
+                    contentSearch.focus()
+                } else if (headerSearch) {
+                    headerSearch.focus()
+                }
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyPress)
+        return () => window.removeEventListener("keydown", handleKeyPress)
+    }, [])
+
     return (
         <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-14 items-center justify-between gap-4">
@@ -54,6 +79,7 @@ export function Navbar() {
                     <div className="relative">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
+                            id="header-search-input"
                             placeholder="Search posts..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}

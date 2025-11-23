@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { formatDistanceToNow } from "date-fns"
-import { MessageSquare, ThumbsUp, Flame, Lightbulb, Laugh, Bookmark, MoreVertical, Pencil, Trash, ExternalLink, Eye } from "lucide-react"
+import { MessageSquare, ThumbsUp, Flame, Lightbulb, Laugh, Bookmark, MoreVertical, Pencil, Trash, ExternalLink, Eye, Copy, Share2 } from "lucide-react"
+import { toast } from "sonner"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -108,6 +109,17 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
         }
     }
 
+    const handleCopyLink = async () => {
+        const url = `${window.location.origin}/post/${post.id}`
+        try {
+            await navigator.clipboard.writeText(url)
+            toast.success('Link copied to clipboard')
+        } catch (error) {
+            console.error('Copy failed', error)
+            toast.error('Failed to copy link')
+        }
+    }
+
     return (
         <Card className="overflow-hidden hover:shadow-md transition-shadow">
             <div className="flex">
@@ -148,6 +160,15 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                                 onClick={handleBookmark}
                             >
                                 <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                            </Button>
+
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 text-muted-foreground"
+                                onClick={handleCopyLink}
+                            >
+                                <Copy className="h-4 w-4" />
                             </Button>
 
                             {currentUserId === post.userId && (
@@ -243,6 +264,8 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                                 {post._count?.comments || 0} Comments
                             </Button>
                         </Link>
+
+
 
                         <div className="flex gap-1">
                             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleReaction("FIRE")}>
