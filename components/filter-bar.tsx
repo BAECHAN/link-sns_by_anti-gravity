@@ -74,7 +74,7 @@ export function FilterBar() {
 
     return (
         <>
-            <div className="flex flex-col gap-4 p-4 bg-card rounded-lg border">
+            <div className="flex flex-col gap-4 p-3 md:p-4 bg-card rounded-lg border">
                 <form onSubmit={handleSearch} className="flex gap-2">
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -100,7 +100,7 @@ export function FilterBar() {
                             </Button>
                         )}
                     </div>
-                    <Button type="submit">검색</Button>
+                    <Button type="submit" className="hidden md:inline-flex">검색</Button>
                 </form>
 
                 <div className="flex flex-wrap gap-2">
@@ -108,7 +108,7 @@ export function FilterBar() {
                         value={searchParams.get("sort") || "latest"}
                         onValueChange={(value) => updateParams("sort", value)}
                     >
-                        <SelectTrigger className="w-[140px]">
+                        <SelectTrigger className="w-[110px] md:w-[140px]">
                             <SelectValue placeholder="정렬" />
                         </SelectTrigger>
                         <SelectContent>
@@ -122,7 +122,7 @@ export function FilterBar() {
                         value={searchParams.get("period") || "all"}
                         onValueChange={(value) => updateParams("period", value)}
                     >
-                        <SelectTrigger className="w-[140px]">
+                        <SelectTrigger className="w-[110px] md:w-[140px]">
                             <SelectValue placeholder="기간" />
                         </SelectTrigger>
                         <SelectContent>

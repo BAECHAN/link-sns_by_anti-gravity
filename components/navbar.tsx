@@ -59,9 +59,9 @@ export function Navbar() {
 
     return (
         <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-            <div className="container flex h-14 items-center justify-between gap-4">
-                <div className="flex items-center gap-6">
-                    <Link href="/" className="flex items-center space-x-2 font-bold text-xl">
+            <div className="container flex h-14 items-center justify-between gap-2 md:gap-4">
+                <div className="flex items-center gap-3 md:gap-6">
+                    <Link href="/" className="flex items-center space-x-2 font-bold text-lg md:text-xl">
                         LinkSphere
                     </Link>
                     <div className="hidden md:flex gap-4">
@@ -74,9 +74,9 @@ export function Navbar() {
                     </div>
                 </div>
 
-                {/* Search Bar */}
-                <form onSubmit={handleSearch} className="flex-1 max-w-md">
-                    <div className="relative">
+                {/* Search Bar - Hidden on mobile, shown on larger screens */}
+                <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-md">
+                    <div className="relative w-full">
                         <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
                             id="header-search-input"
@@ -89,17 +89,18 @@ export function Navbar() {
                 </form>
 
 
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-1 md:gap-4">
                     <Button
                         variant="ghost"
                         size="icon"
+                        className="h-9 w-9"
                         onClick={() => {
                             const html = document.documentElement
                             html.classList.toggle('dark')
                         }}
                     >
-                        <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                        <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                        <Sun className="h-4 w-4 md:h-5 md:w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                        <Moon className="absolute h-4 w-4 md:h-5 md:w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
                         <span className="sr-only">Toggle theme</span>
                     </Button>
 

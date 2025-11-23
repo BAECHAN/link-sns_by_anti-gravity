@@ -123,59 +123,59 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
     return (
         <Card className="overflow-hidden hover:shadow-md transition-shadow">
             <div className="flex">
-                <div className="flex flex-col items-center p-4 gap-2 bg-muted/20 w-16">
+                <div className="flex flex-col items-center p-2 md:p-4 gap-2 bg-muted/20 w-12 md:w-16">
                     <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-7 w-7 md:h-8 md:w-8"
                         onClick={() => handleReaction("THUMBS_UP")}
                     >
-                        <ThumbsUp className="h-4 w-4" />
+                        <ThumbsUp className="h-3 w-3 md:h-4 md:w-4" />
                     </Button>
                     <span className="text-xs font-bold">{optimisticReactions}</span>
                 </div>
 
                 <div className="flex-1">
-                    <CardHeader className="p-4 pb-2 flex flex-row items-start justify-between space-y-0">
-                        <div className="space-y-1">
-                            <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-                                <Avatar className="h-6 w-6">
+                    <CardHeader className="p-3 md:p-4 pb-2 flex flex-row items-start justify-between space-y-0">
+                        <div className="space-y-1 flex-1 min-w-0">
+                            <div className="flex items-center gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground mb-1">
+                                <Avatar className="h-5 w-5 md:h-6 md:w-6">
                                     <AvatarImage src={post.user?.image || ""} />
                                     <AvatarFallback>{post.user?.name?.[0] || "U"}</AvatarFallback>
                                 </Avatar>
-                                <span>{post.user?.name}</span>
-                                <span>•</span>
-                                <span>{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
+                                <span className="truncate">{post.user?.name}</span>
+                                <span className="hidden md:inline">•</span>
+                                <span className="hidden md:inline">{formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}</span>
                             </div>
                             <Link href={`/post/${post.id}`} className="hover:underline">
-                                <h3 className="font-bold text-lg leading-tight">{post.title}</h3>
+                                <h3 className="font-bold text-base md:text-lg leading-tight">{post.title}</h3>
                             </Link>
                         </div>
 
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-0.5 md:gap-1 flex-shrink-0">
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className={`h-8 w-8 ${isBookmarked ? "text-yellow-500" : "text-muted-foreground"}`}
+                                className={`h-7 w-7 md:h-8 md:w-8 ${isBookmarked ? "text-yellow-500" : "text-muted-foreground"}`}
                                 onClick={handleBookmark}
                             >
-                                <Bookmark className={`h-4 w-4 ${isBookmarked ? "fill-current" : ""}`} />
+                                <Bookmark className={`h-3 w-3 md:h-4 md:w-4 ${isBookmarked ? "fill-current" : ""}`} />
                             </Button>
 
                             <Button
                                 variant="ghost"
                                 size="icon"
-                                className="h-8 w-8 text-muted-foreground"
+                                className="h-7 w-7 md:h-8 md:w-8 text-muted-foreground"
                                 onClick={handleCopyLink}
                             >
-                                <Copy className="h-4 w-4" />
+                                <Copy className="h-3 w-3 md:h-4 md:w-4" />
                             </Button>
 
                             {currentUserId === post.userId && (
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
-                                        <Button variant="ghost" size="icon" className="h-8 w-8">
-                                            <MoreVertical className="h-4 w-4" />
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8">
+                                            <MoreVertical className="h-3 w-3 md:h-4 md:w-4" />
                                         </Button>
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent align="end">
@@ -193,20 +193,20 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                         </div>
                     </CardHeader>
 
-                    <CardContent className="p-4 pt-0">
+                    <CardContent className="p-3 md:p-4 pt-0">
                         {post.description && (
-                            <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                            <p className="text-xs md:text-sm text-muted-foreground line-clamp-2 mb-3">
                                 {post.description}
                             </p>
                         )}
 
                         {aiSummary && (
-                            <div className="mb-3 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-md">
+                            <div className="mb-3 p-2 md:p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-md">
                                 <div className="flex items-center gap-2 mb-1">
-                                    <Lightbulb className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                                    <Lightbulb className="h-3 w-3 md:h-4 md:w-4 text-blue-600 dark:text-blue-400" />
                                     <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">AI 요약</span>
                                 </div>
-                                <p className="text-sm text-blue-900 dark:text-blue-100">
+                                <p className="text-xs md:text-sm text-blue-900 dark:text-blue-100">
                                     {aiSummary}
                                 </p>
                             </div>
@@ -219,7 +219,7 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                             className="block mt-2 group border rounded-lg overflow-hidden hover:border-primary/50 transition-colors"
                         >
                             {post.ogImage && (
-                                <div className="relative h-48 w-full overflow-hidden bg-muted">
+                                <div className="relative h-32 md:h-48 w-full overflow-hidden bg-muted">
                                     <img
                                         src={post.ogImage}
                                         alt={post.title}
@@ -227,12 +227,12 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                                     />
                                 </div>
                             )}
-                            <div className="p-3 bg-muted/30 flex items-center justify-between group-hover:bg-muted/50 transition-colors">
-                                <span className="text-sm text-muted-foreground truncate flex-1 pr-4">
+                            <div className="p-2 md:p-3 bg-muted/30 flex items-center justify-between group-hover:bg-muted/50 transition-colors">
+                                <span className="text-xs md:text-sm text-muted-foreground truncate flex-1 pr-2 md:pr-4">
                                     {post.url}
                                 </span>
-                                <div className="flex items-center gap-1 text-xs font-medium text-primary">
-                                    Visit Website
+                                <div className="flex items-center gap-1 text-xs font-medium text-primary flex-shrink-0">
+                                    <span className="hidden md:inline">Visit Website</span>
                                     <ExternalLink className="h-3 w-3" />
                                 </div>
                             </div>
@@ -257,25 +257,26 @@ export function PostCard({ post, currentUserId }: PostCardProps) {
                         </div>
                     </CardContent>
 
-                    <CardFooter className="p-4 pt-0 flex gap-4">
+                    <CardFooter className="p-3 md:p-4 pt-0 flex gap-2 md:gap-4 flex-wrap">
                         <Link href={`/post/${post.id}`}>
-                            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground">
-                                <MessageSquare className="h-4 w-4" />
-                                {post._count?.comments || 0} Comments
+                            <Button variant="ghost" size="sm" className="gap-1 md:gap-2 text-muted-foreground h-8 text-xs md:text-sm">
+                                <MessageSquare className="h-3 w-3 md:h-4 md:w-4" />
+                                <span className="hidden sm:inline">{post._count?.comments || 0} Comments</span>
+                                <span className="sm:hidden">{post._count?.comments || 0}</span>
                             </Button>
                         </Link>
 
 
 
-                        <div className="flex gap-1">
-                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleReaction("FIRE")}>
-                                <Flame className="h-4 w-4 text-orange-500" />
+                        <div className="flex gap-0.5 md:gap-1">
+                            <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => handleReaction("FIRE")}>
+                                <Flame className="h-3 w-3 md:h-4 md:w-4 text-orange-500" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleReaction("IDEA")}>
-                                <Lightbulb className="h-4 w-4 text-yellow-500" />
+                            <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => handleReaction("IDEA")}>
+                                <Lightbulb className="h-3 w-3 md:h-4 md:w-4 text-yellow-500" />
                             </Button>
-                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleReaction("LAUGH")}>
-                                <Laugh className="h-4 w-4 text-blue-500" />
+                            <Button variant="ghost" size="icon" className="h-7 w-7 md:h-8 md:w-8" onClick={() => handleReaction("LAUGH")}>
+                                <Laugh className="h-3 w-3 md:h-4 md:w-4 text-blue-500" />
                             </Button>
                         </div>
 
