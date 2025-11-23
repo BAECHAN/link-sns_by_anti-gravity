@@ -42,7 +42,9 @@ export function FilterBar() {
 
     const updateParams = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString())
-        if (value) {
+        if (key === "category" && value === "all") {
+            params.delete(key)
+        } else if (value) {
             params.set(key, value)
         } else {
             params.delete(key)
@@ -103,14 +105,14 @@ export function FilterBar() {
                     </Select>
 
                     <Select
-                        value={searchParams.get("category") || ""}
+                        value={searchParams.get("category") || "all"}
                         onValueChange={(value) => updateParams("category", value)}
                     >
                         <SelectTrigger className="w-[140px]">
                             <SelectValue placeholder="Category" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="">All Categories</SelectItem>
+                            <SelectItem value="all">All Categories</SelectItem>
                             {CATEGORIES.map((cat) => (
                                 <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                             ))}
