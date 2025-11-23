@@ -1,0 +1,17 @@
+[00:00:00.717] Server  LOG      ✓ Ready in 535ms
+[00:04:04.265] Server  ERROR    ⨯ ReferenceError: CommentItem is not defined
+[00:04:04.378] Browser ERROR   uncaughtError: ReferenceError: CommentItem is not defined
+[00:06:30.860] Server  LOG      ✓ Compiled in 1ms
+[00:33:13.638] Server  LOG      ✓ Compiled in 30ms
+[00:37:40.110] Server  LOG     AI content generated successfully using gemini-2.5-flash
+[00:39:58.174] Server  LOG      ✓ Compiled in 10ms
+[00:41:18.727] Server  LOG     AI content generated successfully using gemini-2.5-flash
+[00:44:31.098] Server  LOG      ✓ Compiled in 32ms
+[00:44:31.183] Browser ERROR   uncaughtError: ReferenceError: useEffect is not defined
+[00:44:46.848] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[00:44:46.966] Server  LOG      ✓ Compiled in 18ms
+[00:44:48.154] Server  LOG      ✓ Compiled in 14ms
+[00:46:12.281] Server  LOG     AI content generated successfully using gemini-2.5-flash
+[00:49:59.923] Server  LOG      ✓ Compiled in 11ms
+[00:50:13.338] Server  LOG      ✓ Compiled in 37ms
+[00:50:22.690] Server  LOG      ✓ Compiled in 9ms
